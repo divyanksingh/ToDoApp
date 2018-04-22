@@ -51,3 +51,16 @@ class SubTaskResource(ModelResource):
             "subtasks": ALL_WITH_RELATIONS
         }
         ordering = ['due_date']
+
+
+
+class DeletedTaskResource(ModelResource):
+    class Meta:
+        queryset = Task.objects.exclude(deleted=False)
+        allowed_methods = ['get', 'delete']
+        resource_name = 'deleted'
+        authorization = Authorization()
+        filtering = {
+            "deletion_date":['exact', 'lt', 'lte', 'gte', 'gt'],
+        }
+        ordering = ['due_date']

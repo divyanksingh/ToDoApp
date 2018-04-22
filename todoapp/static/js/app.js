@@ -61,7 +61,7 @@ app.controller('TodoController', ['$scope', '$http', function($scope, $http) {
     }
 
     this.markDeleted = function(task, bool){
-      var body = {"deleted": true};
+      var body = {"deleted": true, "deletion_date": new Date()};
       var url = "http://localhost:8000" + task.resource_uri;
       $http({method: 'PUT', 'url': url, data: body}).then(function(res){
         if(res.status == 204){
