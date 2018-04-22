@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" ng-app='TodoApp'>
+  <head>
+    <base href="/">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>To do application</title>
+
+     <link href='{% static "/css/bootstrap.css" %}' rel="stylesheet" type="text/css" />
+    <link href='{% static "/css/angular-datepicker.css" %}' rel="stylesheet" type="text/css" />
+
+    <script src='{% static "/js/angular.min.js" %}'></script>
+    <script src='{% static "/js/angular-datepicker.js" %}'></script> 
+    <script src='{% static "/js/app.js" %}' ></script> 
+  </head>
+
+  <body>
+    <div class='content'>
+        {% block content %}{% endblock content %}
+    </div>
+    <div ng-controller="TodoController as ctrl" class="container-fluid">
+      <section class="col-md-12">
+      <form id="get-form" class="col-md-4">
+          <label>
+            Create a new To-do:
+          </label></br>
+            <input placeholder="Title" name="title" type="text" data-ng-model="ctrl.title"/>
+            <datepicker date-format="yyyy-MM-dd">
+              <input placeholder="Due date" data-ng-model="ctrl.due_date" type="text"/>
+            </datepicker>
+            <button type="button" data-ng-click="ctrl.submit()">Go </button>
+        </form>
+        <span>{$ ctrl.messsage $}</span>
+        <div class="col-md-4">
+          <label>
+            Search:
+          </label></br>
+          <input placeholder="Search keyword" name="keyword" type="text" data-ng-model="ctrl.searchkeyword"/>
+          <button type="button" data-ng-click="ctrl.search()">Go </button>
+        </div>
+        <div class="col-md-4">
+          <label>
+            Filters:
+          </label></br>
+          <button data-ng-click="ctrl.filter('today')">Today</button>
+          <button data-ng-click="ctrl.filter('this_week')">This Week</button>
+          <button data-ng-click="ctrl.filter('next_week')">Next Week</button>
+          <button data-ng-click="ctrl.filter('overdue')">Overdue</button>
+        </div>
+    </section>
+
+        <table class="col-md-6">
+                          <thead>
+                            <tr>
+                              <th class="text-black b-b b-grey p-l-20 fs-12">Title</th>
+                              <th class="text-black b-b b-grey p-l-20 fs-12">Due Date</th>
+                              <th class="text-black b-b b-grey p-l-20 fs-12">Status</th>
+                              <th class="text-black b-b b-grey p-l-20 fs-12">Parent Task</th>
+                            </tr>
+                          </thead>
+
+                          <tbody>
+                          
+                 
+                            <tr data-ng-repeat="task in ctrl.tasks">
+                              <td>
+                                <a href="javascript:void(0)" data-ng-click="ctrl.showSubPanel(task)">{$ task.title $}</a>
+                              </td>
+
+                              <td>
+                                {$ task.due_date $}
+                              </td>
+
+                              <td>
+                                {$ task.status $}
+                                <a data-ng-if="task.status == 'Pending'" href="javascript:void(0)" data-ng-click="ctrl.markComplete(task)"> | Done</a>
+                              </td>
+
+                              <td> 
+                                {$ task.parent.title $}
+                              </td>
+                              
+
+                              <!-- <td>
+                                <a href="#" data-ng-click="cTLC.openReqEditModal(req)">Edit</a> | <a href="#" data-ng-click="cTLC.openConfirmModal(req.id)">Delete</a>
+                              </td> -->
+                            </tr>
+                            
+
+                          </tbody>
+        </table>
+
+            <div data-ng-show="ctrl.subPanel" class="col-md-6">
+              <label class="text-bold">
+                {$ ctrl.parent.title $}:
+              </label></br>
+              <form id="sub-form">
+              <h5>
+                Create subtask:
+              </h5>
+                <input placeholder="Title" name="depth" type="text" data-ng-model="ctrl.subtitle"/>
+                <datepicker date-format="yyyy-MM-dd">
+                  <input placeholder="Due date" data-ng-model="ctrl.subdue_date" type="text"/>
+                </datepicker>
+                <button type="button" data-ng-click="ctrl.submitSubtask()">Go </button>
+              </form></br>  
+               <h5>
+                Subtasks:
+              </h5>
+              <table class="col-md-12">
+                          <thead>
+                            <tr>
+                              <th class="text-black b-b b-grey p-l-20 fs-12">Title</th>
+                              <th class="text-black b-b b-grey p-l-20 fs-12">Due Date</th>
+                              <th class="text-black b-b b-grey p-l-20 fs-12">Status</th>
+                            </tr>
+                          </thead>
+
+                          <tbody>
+                          
+                 
+                            <tr data-ng-repeat="task in ctrl.subtasks">
+                              <td>
+                                {$ task.title $}
+                              </td>
+
+                              <td>
+                                {$ task.due_date $}
+                              </td>
+
+                              <td>
+                                {$ task.status $}
+                                <a data-ng-if="task.status == 'Pending'" href="javascript:void(0)" data-ng-click="ctrl.markComplete(task)"> | Done</a>
+                              </td>
+                              
+
+                              <!-- <td>
+                                <a href="#" data-ng-click="cTLC.openReqEditModal(req)">Edit</a> | <a href="#" data-ng-click="cTLC.openConfirmModal(req.id)">Delete</a>
+                              </td> -->
+                            </tr>
+                            
+
+                          </tbody>
+              </table>
+            </div>
+
+        
+    </div>
+  </body>
+</html>
