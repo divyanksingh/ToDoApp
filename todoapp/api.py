@@ -18,7 +18,8 @@ class UserResource(ModelResource):
 class TaskResource(ModelResource):
     parent = fields.ForeignKey('todoapp.api.TaskResource', attribute = 'parent', null=True, full=True)
     class Meta:
-        queryset = Task.objects.all()
+        queryset = Task.objects.exclude(deleted=True)
+        allowed_methods = ['get', 'post', 'put']
         resource_name = 'task'
         authorization = Authorization()
         filtering = {
@@ -30,7 +31,7 @@ class TaskResource(ModelResource):
 
 class FilteredResource(ModelResourceCustom):
     class Meta:
-        queryset = Task.objects.all()
+        queryset = Task.objects.exclude(deleted=True)
         allowed_methods = ['get']
         resource_name = 'filter'
         filtering = {
@@ -38,12 +39,12 @@ class FilteredResource(ModelResourceCustom):
         }
         custom_filters = duedate_range_filter
         ordering = ['due_date']
-        
+
 
 class SubTaskResource(ModelResource):
-    subtasks = fields.ToManyField('todoapp.api.TaskResource', attribute='subtasks', null=True, blank=True, full=True)
+    subtasks = fields.ToManyField('todoapp.api.TaskResource', attribute=lambda bundle: Task.objects.filter(parent=bundle.obj, deleted=False), null=True, blank=True, full=True)
     class Meta:
-        queryset = Task.objects.all()
+        queryset = Task.objects.exclude(deleted=True)
         allowed_methods = ['get']
         resource_name = 'subtasks'
         filtering = {

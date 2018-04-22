@@ -38,19 +38,37 @@ app.controller('TodoController', ['$scope', '$http', function($scope, $http) {
         if(res.status == 201){
           tdc.title = "";
           tdc.due_date = "";
-          tdc.message = "Created successfully";
+          tdc.initialize();
         }
     	}).catch(function(error){
         console.log(error)
     	});
     }
 
-    this.markComplete = function(task){
+    this.markComplete = function(task, bool){
       var body = {"status": "Completed"};
       var url = "http://localhost:8000" + task.resource_uri;
       $http({method: 'PUT', 'url': url, data: body}).then(function(res){
         if(res.status == 204){
-          task.status = "Completed"
+          tdc.initialize()
+          if(bool){
+            tdc.showSubPanel(tdc.parent);
+          }
+        }
+      }).catch(function(error){
+        console.log(error)
+      });
+    }
+
+    this.markDeleted = function(task, bool){
+      var body = {"deleted": true};
+      var url = "http://localhost:8000" + task.resource_uri;
+      $http({method: 'PUT', 'url': url, data: body}).then(function(res){
+        if(res.status == 204){
+          tdc.initialize()
+          if(bool){
+            tdc.showSubPanel(tdc.parent);
+          }
         }
       }).catch(function(error){
         console.log(error)
@@ -63,7 +81,6 @@ app.controller('TodoController', ['$scope', '$http', function($scope, $http) {
       tdc.parent = task;
       var url = "http://localhost:8000/api/v1/subtasks/" + task.id + '/';
       $http({method: 'GET', 'url': url}).then(function(res){
-        console.log(res)
         if(res.status == 200){
           tdc.subtasks = res.data.subtasks;
         }
@@ -79,7 +96,8 @@ app.controller('TodoController', ['$scope', '$http', function($scope, $http) {
         if(res.status == 201){
           tdc.subtitle = "";
           tdc.subdue_date = "";
-          tdc.message = "Created successfully";
+          tdc.initialize();
+          tdc.showSubPanel(tdc.parent);
         }
       }).catch(function(error){
         console.log(error)

@@ -58,6 +58,7 @@
                               <th class="text-black b-b b-grey p-l-20 fs-12">Due Date</th>
                               <th class="text-black b-b b-grey p-l-20 fs-12">Status</th>
                               <th class="text-black b-b b-grey p-l-20 fs-12">Parent Task</th>
+                              <th class="text-black b-b b-grey p-l-20 fs-12">Action</th>
                             </tr>
                           </thead>
 
@@ -75,17 +76,15 @@
 
                               <td>
                                 {$ task.status $}
-                                <a data-ng-if="task.status == 'Pending'" href="javascript:void(0)" data-ng-click="ctrl.markComplete(task)"> | Done</a>
                               </td>
 
                               <td> 
                                 {$ task.parent.title $}
                               </td>
-                              
 
-                              <!-- <td>
-                                <a href="#" data-ng-click="cTLC.openReqEditModal(req)">Edit</a> | <a href="#" data-ng-click="cTLC.openConfirmModal(req.id)">Delete</a>
-                              </td> -->
+                              <td>
+                                <a href="javascript:void(0)" data-ng-click="ctrl.markDeleted(task, false)"> Delete</a><a data-ng-if="task.status == 'Pending'" href="javascript:void(0)" data-ng-click="ctrl.markComplete(task, false)"> | Done</a>
+                              </td>
                             </tr>
                             
 
@@ -115,6 +114,7 @@
                               <th class="text-black b-b b-grey p-l-20 fs-12">Title</th>
                               <th class="text-black b-b b-grey p-l-20 fs-12">Due Date</th>
                               <th class="text-black b-b b-grey p-l-20 fs-12">Status</th>
+                              <th class="text-black b-b b-grey p-l-20 fs-12">Action</th>
                             </tr>
                           </thead>
 
@@ -132,13 +132,13 @@
 
                               <td>
                                 {$ task.status $}
-                                <a data-ng-if="task.status == 'Pending'" href="javascript:void(0)" data-ng-click="ctrl.markComplete(task)"> | Done</a>
+                                
+                              </td>
+
+                              <td>
+                                <a href="javascript:void(0)" data-ng-click="ctrl.markDeleted(task, true)"> Delete</a><a data-ng-if="task.status == 'Pending'" href="javascript:void(0)" data-ng-click="ctrl.markComplete(task, true)"> | Done</a>
                               </td>
                               
-
-                              <!-- <td>
-                                <a href="#" data-ng-click="cTLC.openReqEditModal(req)">Edit</a> | <a href="#" data-ng-click="cTLC.openConfirmModal(req.id)">Delete</a>
-                              </td> -->
                             </tr>
                             
 
