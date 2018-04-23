@@ -1,18 +1,8 @@
-from django.contrib.auth.models import User
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie import fields
 from todoapp.custom_filter import ModelResourceCustom, duedate_range_filter
 from tastypie.authorization import Authorization, DjangoAuthorization
 from todoapp.models import Task
-
-
-
-class UserResource(ModelResource):
-    class Meta:
-        queryset = User.objects.all()
-        resource_name = 'user'
-        excludes = ['email', 'password', 'is_active', 'is_staff', 'is_superuser']
-        authorization = Authorization()
 
 
 class TaskResource(ModelResource):

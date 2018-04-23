@@ -13,9 +13,9 @@ Steps for usage:
 6. python manage.py runserver
 7. Open http://127.0.0.1:8000/index in browser
 8. The worker for clean-up job can be started as 'celery -A todo worker -l info -B'
+9. test are written using django.test.TestCase and tastypie.test.TestApiClient
 
 
-Detailed documentation and tests to be added.
 
 
 
