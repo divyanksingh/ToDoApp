@@ -3,7 +3,7 @@ billiard==3.5.0.3
 celery==5.2.2
 certifi==2022.12.7
 chardet==3.0.4
-Django==3.2.18
+Django==3.2.23
 django-cors-headers==3.0.0
 django-tastypie==0.14.1
 idna==2.6
