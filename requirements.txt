@@ -3,12 +3,12 @@ billiard==3.5.0.3
 celery==5.2.2
 certifi==2022.12.7
 chardet==3.0.4
-Django==3.2.18
+Django==4.2.20
 django-cors-headers==3.0.0
 django-tastypie==0.14.1
 idna==2.6
 itypes==1.1.0
-Jinja2==2.11.3
+Jinja2==3.1.6
 kombu==4.1.0
 MarkupSafe==1.0
 python-dateutil==2.7.2
